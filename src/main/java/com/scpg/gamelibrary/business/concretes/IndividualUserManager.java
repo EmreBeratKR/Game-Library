@@ -28,6 +28,12 @@ public class IndividualUserManager implements IIndividualUserService
     }
 
     @Override
+    public boolean isValidRegisteration(String username, String mailAddress)
+    {
+        return !(this.individualUserDao.existsByUserIdUsernameOrUserIdMailAddress(username, mailAddress));
+    }
+
+    @Override
     public List<IndividualUser> getAll()
     {
         return this.individualUserDao.findAll();

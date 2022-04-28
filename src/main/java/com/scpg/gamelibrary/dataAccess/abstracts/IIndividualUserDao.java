@@ -13,4 +13,6 @@ public interface IIndividualUserDao extends JpaRepository<IndividualUser, UserId
 
     IndividualUser getByUserIdUsername(String username);
     IndividualUser getByUserIdMailAddress(String mailAddress);
+
+    boolean existsByUserIdUsernameOrUserIdMailAddress(String username, String mailAddress);
 }

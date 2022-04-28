@@ -26,6 +26,8 @@ public class IndividualUserController
                                    @RequestParam String password,
                                    @RequestParam int age)
     {
+        if (!this.individualUserService.isValidRegisteration(username, mailAddress)) return null;
+
         return this.individualUserService.add(new IndividualUser
                 (
                    new UserId(username, mailAddress),

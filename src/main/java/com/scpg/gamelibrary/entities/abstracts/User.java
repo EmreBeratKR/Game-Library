@@ -1,25 +1,25 @@
-package com.scpg.gamelibrary.entities.concretes;
+package com.scpg.gamelibrary.entities.abstracts;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.scpg.gamelibrary.entities.abstracts.IEntitity;
+
+import com.scpg.gamelibrary.entities.concretes.UserId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
-@Entity
-@Table(name = "users")
+@MappedSuperclass
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class User implements IEntitity
+public abstract class User implements IEntitity, Serializable
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String username;
+    @EmbeddedId
+    private UserId userId;
+    private String profileName;
     private String password;
 }

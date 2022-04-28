@@ -1,9 +1,9 @@
 package com.scpg.gamelibrary.dataAccess.abstracts;
 
-import com.scpg.gamelibrary.entities.concretes.User;
+import com.scpg.gamelibrary.entities.concretes.UserId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUserDao extends JpaRepository<User, Integer>
+public interface IUserDao<T> extends JpaRepository<T, UserId>
 {
-    User getByUsername(String username);
+
 }

@@ -18,13 +18,31 @@ public class IndividualUserManager implements IIndividualUserService
     @Override
     public IndividualUser add(IndividualUser user)
     {
-        return individualUserDao.save(user);
+        return this.individualUserDao.save(user);
+    }
+
+    @Override
+    public void remove(IndividualUser user)
+    {
+        this.individualUserDao.delete(user);
     }
 
     @Override
     public List<IndividualUser> getAll()
     {
         return this.individualUserDao.findAll();
+    }
+
+    @Override
+    public List<IndividualUser> getAllByProfileName(String profileName)
+    {
+        return this.individualUserDao.getAllByProfileName(profileName);
+    }
+
+    @Override
+    public List<IndividualUser> getAllByAge(int age)
+    {
+        return this.individualUserDao.getAllByAge(age);
     }
 
     @Override

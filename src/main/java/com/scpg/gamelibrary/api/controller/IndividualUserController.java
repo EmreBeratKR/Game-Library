@@ -35,10 +35,34 @@ public class IndividualUserController
                 ));
     }
 
+    @GetMapping("/removebyusername")
+    public void removeByUsername(@RequestParam String username)
+    {
+        this.individualUserService.remove(this.individualUserService.getByUsername(username));
+    }
+
+    @GetMapping("/removebymailaddress")
+    public void removeByMailAddress(@RequestParam String mailAddress)
+    {
+        this.individualUserService.remove(this.individualUserService.getByMailAddress(mailAddress));
+    }
+
     @GetMapping("/getall")
     public List<IndividualUser> getAll()
     {
         return this.individualUserService.getAll();
+    }
+
+    @GetMapping("/getallbyprofilename")
+    public List<IndividualUser> getAllByProfileName(@RequestParam String username)
+    {
+        return this.individualUserService.getAllByProfileName(username);
+    }
+
+    @GetMapping("/getallbyage")
+    public List<IndividualUser> getAllByAge(@RequestParam int age)
+    {
+        return this.individualUserService.getAllByAge(age);
     }
 
     @GetMapping("/getbyusername")

@@ -22,4 +22,5 @@ public class GameManager implements IGameService
     {
         return this.gameDao.findAll();
     }
+
 }

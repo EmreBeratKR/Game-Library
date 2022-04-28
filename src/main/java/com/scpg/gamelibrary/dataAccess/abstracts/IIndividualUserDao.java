@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IIndividualUserDao extends JpaRepository<IndividualUser, UserId>
 {
-
+    IndividualUser getByUserIdUsername(String username);
+    IndividualUser getByUserIdMailAddress(String mailAddress);
 }

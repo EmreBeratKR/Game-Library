@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public abstract class User implements IEntitity, Serializable
+public abstract class User implements IEntity, Serializable
 {
     @EmbeddedId
     private UserId userId;

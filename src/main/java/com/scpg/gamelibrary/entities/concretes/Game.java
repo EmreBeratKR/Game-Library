@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class Game implements IEntity
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int publisherId;
     private String name;

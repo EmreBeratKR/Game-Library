@@ -17,4 +17,8 @@ public final class SuccessMessage
     public static final String GameOwnershipAdded = "GameOwnership Successfully Added to Database!";
     public static final String GameOwnershipRemoved = "GameOwnership Successfully Removed from Database!";
     public static final String GameOwnershipFound = "GameOwnership Successfully Found!";
+
+    public static final String FriendshipAdded = "Friendship Successfully Added to Database!";
+    public static final String FriendshipRemoved = "Friendship Successfully Removed from Database!";
+    public static final String FriendshipFound = "Friendship Successfully Found!";
 }

@@ -60,7 +60,6 @@ public class CompanyUserManager implements ICompanyUserService
         return new SuccessResult(successMsg);
     }
 
-
     @Override
     public boolean isValidUsername(String username)
     {

@@ -14,6 +14,10 @@ public final class ErrorMessage
     public static final String GameOwnershipDoesNotExist = "GameOwnership does not Exist!";
     public static final String ZeroGameOwned = "There are no Games to Show!";
 
+    public static final String InvalidFriendship_Self = "User cannot add himself as Friend!";
+    public static final String FriendshipAlreadyExists = "Friendship Already Exists!";
+    public static final String FriendshipDoesNotExist = "Friendship does not Exist!";
+
 
     public static String UserAlreadyExistByUsername(String username)
     {

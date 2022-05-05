@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/individualUsers")
 @RequiredArgsConstructor
@@ -34,8 +32,9 @@ public class IndividualUserController
     @DeleteMapping("/removebyid")
     public ResponseEntity<?> removeById(@RequestParam int id)
     {
-        var individualUser = this.individualUserService.getByUserId(id);
-        var result = this.individualUserService.remove(individualUser);
+        var resultData = this.individualUserService.getByUserId(id);
+
+        var result = this.individualUserService.remove(resultData.getData());
 
         if (result.isSuccess())
         {
@@ -55,7 +54,46 @@ public class IndividualUserController
             return new ResponseEntity<>(dataResult, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(dataResult, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(dataResult, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getbyid")
+    public ResponseEntity<?> getById(@RequestParam int id)
+    {
+        var dataResult = this.individualUserService.getByUserId(id);
+
+        if (dataResult.isSuccess())
+        {
+            return new ResponseEntity<>(dataResult, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(dataResult, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getbyusername")
+    public ResponseEntity<?> getByUsername(@RequestParam String  username)
+    {
+        var dataResult = this.individualUserService.getByUsername(username);
+
+        if (dataResult.isSuccess())
+        {
+            return new ResponseEntity<>(dataResult, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(dataResult, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getbymailaddress")
+    public ResponseEntity<?> getByMailAddress(@RequestParam String  mailAddress)
+    {
+        var dataResult = this.individualUserService.getByMailAddress(mailAddress);
+
+        if (dataResult.isSuccess())
+        {
+            return new ResponseEntity<>(dataResult, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(dataResult, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -14,7 +14,7 @@ public interface IUserService<T>
     boolean isValidMailAddress(String mailAddress);
 
     DataResult<List<T>> getAll();
-    T getByUserId(int id);
-    T getByUsername(String username);
-    T getByMailAddress(String mailAddress);
+    DataResult<T> getByUserId(int id);
+    DataResult<T> getByUsername(String username);
+    DataResult<T> getByMailAddress(String mailAddress);
 }

@@ -1,6 +1,8 @@
 package com.scpg.gamelibrary.business.concretes;
 
 import com.scpg.gamelibrary.business.abstracts.IIndividualUserService;
+import com.scpg.gamelibrary.core.Message.ErrorMessage;
+import com.scpg.gamelibrary.core.Message.SuccessMessage;
 import com.scpg.gamelibrary.core.result.abstracts.DataResult;
 import com.scpg.gamelibrary.core.result.abstracts.Result;
 import com.scpg.gamelibrary.core.result.concretes.ErrorDataResult;
@@ -25,34 +27,36 @@ public class IndividualUserManager implements IIndividualUserService
     @Override
     public DataResult<IndividualUser> add(IndividualUser user)
     {
-        if (!isValidUsername(user.getUsername()))
+        var username = user.getUsername();
+        if (!isValidUsername(username))
         {
-            var errorMsg = "Username {" + user.getUsername() + "} is already existing!";
+            var errorMsg = ErrorMessage.UserAlreadyExistByUsername(username);
             return new ErrorDataResult<>(null, errorMsg);
         }
 
-        if (!isValidMailAddress(user.getMailAddress()))
+        var mailAddress = user.getMailAddress();
+        if (!isValidMailAddress(mailAddress))
         {
-            var errorMsg = "Mail Address {" + user.getMailAddress() + "} is already existing!";
+            var errorMsg = ErrorMessage.UserAlreadyExistByMailAddress(mailAddress);
             return new ErrorDataResult<>(null, errorMsg);
         }
 
         this.individualUserDao.save(user);
-        var successMsg = "User Successfully added to Database!";
+        var successMsg = SuccessMessage.UserAdded;
         return new SuccessDataResult<>(user, successMsg);
     }
 
     @Override
     public Result remove(IndividualUser user)
     {
-        if (!this.individualUserDao.existsById(user.getUserId()))
+        if (user == null)
         {
-            var errorMsg = "User does not Exist!";
+            var errorMsg = ErrorMessage.UserDoesNotExist;
             return new ErrorResult(errorMsg);
         }
 
         this.individualUserDao.delete(user);
-        var successMsg = "User Successfuly removed from Database";
+        var successMsg = SuccessMessage.UserRemoved;
         return new SuccessResult(successMsg);
     }
 
@@ -75,29 +79,53 @@ public class IndividualUserManager implements IIndividualUserService
 
         if (users.isEmpty())
         {
-            var errorMsg = "There is no Individual Users to show!";
+            var errorMsg = ErrorMessage.ZeroUser;
             return new ErrorDataResult<>(null, errorMsg);
         }
 
-        var successResult = "Individual Users are Successfully Listed!";
+        var successResult = SuccessMessage.UsersListed;
         return new SuccessDataResult<>(users, successResult);
     }
 
     @Override
-    public IndividualUser getByUserId(int id)
+    public DataResult<IndividualUser> getByUserId(int id)
     {
-        return this.individualUserDao.getReferenceById(id);
+        if (!this.individualUserDao.existsById(id))
+        {
+            var errorMsg = ErrorMessage.UserDoesNotExist;
+            return new ErrorDataResult<>(null, errorMsg);
+        }
+
+        var user = this.individualUserDao.getReferenceById(id);
+        var successMsg = SuccessMessage.UserFound;
+        return new SuccessDataResult<>(user, successMsg);
     }
 
     @Override
-    public IndividualUser getByUsername(String username)
+    public DataResult<IndividualUser> getByUsername(String username)
     {
-        return this.individualUserDao.getByUsername(username);
+        if (!this.individualUserDao.existsByUsername(username))
+        {
+            var errorMsg = ErrorMessage.UserDoesNotExist;
+            return new ErrorDataResult<>(null, errorMsg);
+        }
+
+        var user = this.individualUserDao.getByUsername(username);
+        var successMsg = SuccessMessage.UserFound;
+        return new SuccessDataResult<>(user, successMsg);
     }
 
     @Override
-    public IndividualUser getByMailAddress(String mailAddress)
+    public DataResult<IndividualUser> getByMailAddress(String mailAddress)
     {
-        return this.individualUserDao.getByMailAddress(mailAddress);
+        if (!this.individualUserDao.existsByMailAddress(mailAddress))
+        {
+            var errorMsg = ErrorMessage.UserDoesNotExist;
+            return new ErrorDataResult<>(null, errorMsg);
+        }
+
+        var user = this.individualUserDao.getByMailAddress(mailAddress);
+        var successMsg = SuccessMessage.UserFound;
+        return new SuccessDataResult<>(user, successMsg);
     }
 }

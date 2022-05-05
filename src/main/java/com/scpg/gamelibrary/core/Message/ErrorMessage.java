@@ -11,6 +11,9 @@ public final class ErrorMessage
     public static final String PublisherDoesNotExist = "Publisher does not Exist!";
     public static final String ZeroGame = "There are no Games to Show!";
 
+    public static final String GameOwnershipDoesNotExist = "GameOwnership does not Exist!";
+    public static final String ZeroGameOwned = "There are no Games to Show!";
+
 
     public static String UserAlreadyExistByUsername(String username)
     {

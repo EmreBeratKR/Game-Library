@@ -1,16 +1,20 @@
 package com.scpg.gamelibrary.business.abstracts;
 
+import com.scpg.gamelibrary.core.result.abstracts.DataResult;
+import com.scpg.gamelibrary.core.result.abstracts.Result;
+
 import java.util.List;
 
 public interface IUserService<T>
 {
-    T add(T user);
-    void remove(T user);
+    DataResult<T> add(T user);
+    Result remove(T user);
 
-    boolean isValidRegisteration(String username, String mailAddress);
+    boolean isValidUsername(String username);
+    boolean isValidMailAddress(String mailAddress);
 
-    List<T> getAll();
-    List<T> getAllByProfileName(String profileName);
+    DataResult<List<T>> getAll();
+    T getByUserId(int id);
     T getByUsername(String username);
     T getByMailAddress(String mailAddress);
 }

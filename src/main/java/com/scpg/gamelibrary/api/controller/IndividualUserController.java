@@ -2,80 +2,60 @@ package com.scpg.gamelibrary.api.controller;
 
 import com.scpg.gamelibrary.business.abstracts.IIndividualUserService;
 import com.scpg.gamelibrary.entities.concretes.IndividualUser;
-import com.scpg.gamelibrary.entities.concretes.UserId;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/individualUser")
+@RequestMapping("api/individualUsers")
 @RequiredArgsConstructor
 public class IndividualUserController
 {
     private final IIndividualUserService individualUserService;
 
 
-    @GetMapping("/register")
-    public IndividualUser register(@RequestParam String username,
-                                   @RequestParam String mailAddress,
-                                   @RequestParam String profileName,
-                                   @RequestParam String password,
-                                   @RequestParam int age)
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody IndividualUser individualUser)
     {
-        if (!this.individualUserService.isValidRegisteration(username, mailAddress)) return null;
+        var dataResult = this.individualUserService.add(individualUser);
 
-        return this.individualUserService.add(new IndividualUser
-                (
-                   new UserId(username, mailAddress),
-                   profileName,
-                   password,
-                   age
-                ));
+        if (dataResult.isSuccess())
+        {
+            return new ResponseEntity<>(dataResult, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(dataResult, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/removebyusername")
-    public void removeByUsername(@RequestParam String username)
+    @DeleteMapping("/removebyid")
+    public ResponseEntity<?> removeById(@RequestParam int id)
     {
-        this.individualUserService.remove(this.individualUserService.getByUsername(username));
-    }
+        var individualUser = this.individualUserService.getByUserId(id);
+        var result = this.individualUserService.remove(individualUser);
 
-    @GetMapping("/removebymailaddress")
-    public void removeByMailAddress(@RequestParam String mailAddress)
-    {
-        this.individualUserService.remove(this.individualUserService.getByMailAddress(mailAddress));
+        if (result.isSuccess())
+        {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/getall")
-    public List<IndividualUser> getAll()
+    public ResponseEntity<?> getAll()
     {
-        return this.individualUserService.getAll();
+        var dataResult = this.individualUserService.getAll();
+
+        if (dataResult.isSuccess())
+        {
+            return new ResponseEntity<>(dataResult, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(dataResult, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/getallbyprofilename")
-    public List<IndividualUser> getAllByProfileName(@RequestParam String username)
-    {
-        return this.individualUserService.getAllByProfileName(username);
-    }
-
-    @GetMapping("/getallbyage")
-    public List<IndividualUser> getAllByAge(@RequestParam int age)
-    {
-        return this.individualUserService.getAllByAge(age);
-    }
-
-    @GetMapping("/getbyusername")
-    public IndividualUser getByUsername(@RequestParam String username)
-    {
-        return this.individualUserService.getByUsername(username);
-    }
-
-    @GetMapping("/getbymailaddress")
-    public IndividualUser getByMailAddress(@RequestParam String mailAddress)
-    {
-        return this.individualUserService.getByMailAddress(mailAddress);
-    }
 }

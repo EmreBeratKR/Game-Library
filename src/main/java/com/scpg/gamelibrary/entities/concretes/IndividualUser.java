@@ -16,10 +16,9 @@ public class IndividualUser extends User
 {
     private int age;
 
-
-    public IndividualUser(UserId userId, String profileName, String password, int age)
+    public IndividualUser(int userId, String username, String mailAddress, String profileName, String password, int age)
     {
-        super(userId, profileName, password);
+        super(userId, username, mailAddress, profileName, password);
         this.age = age;
     }
 }

@@ -17,9 +17,9 @@ public class CompanyUser extends User
     private String billAddress;
 
 
-    public CompanyUser(UserId userId, String profileName, String password, String billAddress)
+    public CompanyUser(int userId, String username, String mailAddress, String profileName, String password, String billAddress)
     {
-        super(userId, profileName, password);
+        super(userId, username, mailAddress, profileName, password);
         this.billAddress = billAddress;
     }
 }

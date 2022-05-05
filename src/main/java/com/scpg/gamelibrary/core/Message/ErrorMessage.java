@@ -18,6 +18,10 @@ public final class ErrorMessage
     public static final String FriendshipAlreadyExists = "Friendship Already Exists!";
     public static final String FriendshipDoesNotExist = "Friendship does not Exist!";
 
+    public static final String InvalidReview_EmptyContent = "Review Content must be filled!";
+    public static final String ReviewDoesNotExist = "Review does not Exist!";
+    public static final String ZeroReview = "There are no Reviews to Show!";
+
 
     public static String UserAlreadyExistByUsername(String username)
     {

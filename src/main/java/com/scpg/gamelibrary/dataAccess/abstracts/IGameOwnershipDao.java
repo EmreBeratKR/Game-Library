@@ -9,7 +9,4 @@ public interface IGameOwnershipDao extends JpaRepository<GameOwnership, Integer>
 {
     List<GameOwnership> getAllByOwnerId(int ownerId);
     List<GameOwnership> getAllByGameId(int gameId);
-
-    boolean existsByOwnerId(int ownerId);
-    boolean existsByGameId(int gameId);
 }

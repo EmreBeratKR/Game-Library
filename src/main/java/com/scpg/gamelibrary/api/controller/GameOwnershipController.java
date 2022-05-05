@@ -1,8 +1,8 @@
 package com.scpg.gamelibrary.api.controller;
 
 import com.scpg.gamelibrary.business.abstracts.IGameOwnershipService;
+import com.scpg.gamelibrary.business.abstracts.IGameService;
 import com.scpg.gamelibrary.business.abstracts.IIndividualUserService;
-import com.scpg.gamelibrary.core.Message.SuccessMessage;
 import com.scpg.gamelibrary.entities.concretes.GameOwnership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ public class GameOwnershipController
 {
     private final IGameOwnershipService gameOwnershipService;
     private final IIndividualUserService individualUserService;
+    private final IGameService gameService;
 
 
     @PostMapping("/add")
@@ -65,5 +66,25 @@ public class GameOwnershipController
         }
 
         return new ResponseEntity<>(userResultData, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getallowner")
+    public ResponseEntity<?> getAllOwner(@RequestParam int gameId)
+    {
+        var gameResultData = this.gameService.getById(gameId);
+
+        if (gameResultData.isSuccess())
+        {
+            var resultData = this.gameOwnershipService.getGameOwners(gameResultData.getData());
+
+            if (resultData.isSuccess())
+            {
+                return new ResponseEntity<>(resultData, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(resultData, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(gameResultData, HttpStatus.BAD_REQUEST);
     }
 }

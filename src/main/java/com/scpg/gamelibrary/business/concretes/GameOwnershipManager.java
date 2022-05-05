@@ -86,27 +86,43 @@ public class GameOwnershipManager implements IGameOwnershipService
     public DataResult<List<Game>> getOwnedGames(IndividualUser user)
     {
         var ownerId = user.getUserId();
-        if (this.gameOwnershipDao.existsByOwnerId(ownerId))
+        var gameOwnerships = this.gameOwnershipDao.getAllByOwnerId(ownerId);
+
+        if (gameOwnerships.isEmpty())
         {
-            var gameOwnerships = this.gameOwnershipDao.getAllByOwnerId(ownerId);
-
-            List<Game> games = new ArrayList<>();
-            for (var gameOwnership : gameOwnerships)
-            {
-                games.add(this.gameDao.getReferenceById(gameOwnership.getGameId()));
-            }
-
-            var successMsg = SuccessMessage.GamesListed;
-            return new SuccessDataResult<>(games, successMsg);
+            var errorMsg = ErrorMessage.ZeroGameOwned;
+            return new ErrorDataResult<>(null, errorMsg);
         }
 
-        var errorMsg = ErrorMessage.ZeroGameOwned;
-        return new ErrorDataResult<>(null, errorMsg);
+        List<Game> games = new ArrayList<>();
+        for (var gameOwnership : gameOwnerships)
+        {
+            games.add(this.gameDao.getReferenceById(gameOwnership.getGameId()));
+        }
+
+        var successMsg = SuccessMessage.GamesListed;
+        return new SuccessDataResult<>(games, successMsg);
     }
 
     @Override
     public DataResult<List<IndividualUser>> getGameOwners(Game game)
     {
-        return null;
+        var gameId = game.getId();
+        var gameOwnerships = this.gameOwnershipDao.getAllByGameId(gameId);
+
+        if (gameOwnerships.isEmpty())
+        {
+            var errorMsg = ErrorMessage.ZeroUser;
+            return new ErrorDataResult<>(null, errorMsg);
+        }
+
+        List<IndividualUser> users = new ArrayList<>();
+        for (var gameOwnership : gameOwnerships)
+        {
+            users.add(this.individualUserDao.getReferenceById(gameOwnership.getOwnerId()));
+        }
+
+        var successMsg = SuccessMessage.UsersListed;
+        return new SuccessDataResult<>(users, successMsg);
     }
 }
